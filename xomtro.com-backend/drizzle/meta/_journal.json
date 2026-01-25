@@ -1,0 +1,167 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1731434784496,
+      "tag": "0000_jittery_baron_zemo",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1731776226121,
+      "tag": "0001_slow_scourge",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1731923673135,
+      "tag": "0002_colorful_doorman",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1731938946766,
+      "tag": "0003_mysterious_giant_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1732006332096,
+      "tag": "0004_vengeful_kingpin",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1732093847824,
+      "tag": "0005_cute_lord_hawal",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "5",
+      "when": 1732157093613,
+      "tag": "0006_ordinary_blindfold",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "5",
+      "when": 1732157149584,
+      "tag": "0007_mushy_mysterio",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "5",
+      "when": 1732166078707,
+      "tag": "0008_clever_kylun",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1732200977081,
+      "tag": "0009_fuzzy_marvel_boy",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1732365019239,
+      "tag": "0010_sparkling_junta",
+      "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "5",
+      "when": 1732972114249,
+      "tag": "0011_salty_professor_monster",
+      "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "5",
+      "when": 1733067853254,
+      "tag": "0012_watery_blink",
+      "breakpoints": true
+    },
+    {
+      "idx": 13,
+      "version": "5",
+      "when": 1733343443849,
+      "tag": "0013_messy_mole_man",
+      "breakpoints": true
+    },
+    {
+      "idx": 14,
+      "version": "5",
+      "when": 1733573844114,
+      "tag": "0014_cool_morgan_stark",
+      "breakpoints": true
+    },
+    {
+      "idx": 15,
+      "version": "5",
+      "when": 1733625965793,
+      "tag": "0015_zippy_masque",
+      "breakpoints": true
+    },
+    {
+      "idx": 16,
+      "version": "5",
+      "when": 1733746718297,
+      "tag": "0016_unique_bloodscream",
+      "breakpoints": true
+    },
+    {
+      "idx": 17,
+      "version": "5",
+      "when": 1734070727298,
+      "tag": "0017_unknown_old_lace",
+      "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "5",
+      "when": 1734140053628,
+      "tag": "0018_warm_garia",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "5",
+      "when": 1734140419927,
+      "tag": "0019_lucky_elektra",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "5",
+      "when": 1734140595246,
+      "tag": "0020_youthful_oracle",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "5",
+      "when": 1734143837052,
+      "tag": "0021_abandoned_hammerhead",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "5",
+      "when": 1734578160572,
+      "tag": "0022_melodic_smasher",
+      "breakpoints": true
+    }
+  ]
+}
