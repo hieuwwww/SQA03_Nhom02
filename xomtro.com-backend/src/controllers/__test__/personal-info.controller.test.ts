@@ -7,28 +7,6 @@
  * - getMyAvatar
  * - getUserAvatar
  * - updateUserAvatar
- *
- * Các hàm KHÔNG thuộc phạm vi file test này:
- * - changeUserPassword
- * - createUserAddress
- * - updateUserAddress
- * - removeUserAddress
- * - getUserAddresses
- * - setDefaultAddress
- * - getUserDefaultAddress
- * - createUserContact
- * - getUserContacts
- * - updateUserContact
- * - removeUserContact
- *
- * Lý do loại trừ:
- * - Không thuộc nghiệp vụ "quan ly thông tin cá nhân" theo scope da chon.
- * - Mỗi nhóm chức năng nên có scope riêng để dễ viết report và đối chiếu test case.
- *
- * Lưu ý về DB:
- * - Đây là unit test, tất cả DB/service đều được mock.
- * - CheckDB trong unit test được thể hiện bằng cách xác minh service truy cập/cập nhật DB được gọi đúng tham số.
- * - Rollback không áp dụng trong file này vì không ghi đọc DB thật.
  */
 
 import { NextFunction, Request, Response } from 'express';
@@ -99,7 +77,7 @@ import * as assetService from '@/services/asset.service';
 import * as fileUploadService from '@/services/fileUpload.service';
 
 /**
- * Tạo mock response có thể chain được như Express Response thật.
+ * Tạo mock response có thể chain được như Express Response thật
  */
 const createMockResponse = () => {
   const res = {} as Response;
