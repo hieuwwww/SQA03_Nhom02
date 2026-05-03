@@ -47,3 +47,4 @@ yarn.lock
 # Testing
 /coverage
 .env.production
+.env
