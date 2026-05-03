@@ -6,18 +6,6 @@
  * - getUserContacts
  * - updateUserContact
  * - removeUserContact
- *
- * Các hàm KHÔNG thuộc phạm vi file test này:
- * - xác thực email
- * - avatar
- * - profile
- * - địa chỉ
- * - mật khẩu
- *
- * Lưu ý về DB:
- * - Đây là unit test, tất cả DB/service đều được mock.
- * - CheckDB được thể hiện bằng cách xác minh service được gọi đúng tham số.
- * - Rollback không áp dụng vì không dùng DB thật.
  */
 
 import { NextFunction, Request, Response } from 'express';
