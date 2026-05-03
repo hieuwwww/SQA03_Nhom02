@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+﻿import { NextFunction, Request, Response } from 'express';
 
 jest.mock('@/services/notification.service');
 
@@ -20,6 +20,8 @@ describe('notification.controller (unit)', () => {
     next = jest.fn();
   });
 
+  // test_case_id: TC_QLTB_001
+  // test_objective: Kiem tra lay thong bao cua nguoi dung voi phan trang
   it('should return user notifications with pagination in getUserNotifications', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.body = {
@@ -43,6 +45,8 @@ describe('notification.controller (unit)', () => {
     expect(responsePayload.data.pagination.currentPageSize).toBe(5);
   });
 
+  // test_case_id: TC_QLTB_002
+  // test_objective: Kiem tra xu ly khi getUserNotifications gap loi
   it('should call next when getUserNotifications throws', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.body = null as any;
@@ -52,6 +56,8 @@ describe('notification.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_QLTB_003
+  // test_objective: Kiem tra xu ly khi thieu ids trong setReadUserNotification
   it('should call next when ids missing in setReadUserNotification', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.query = {} as any;
@@ -61,6 +67,8 @@ describe('notification.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_QLTB_004
+  // test_objective: Kiem tra danh dau da doc cho nhieu notification ID
   it('should set read notifications for array ids in setReadUserNotification', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.query = { ids: ['1', '2', 'x'] } as any;
@@ -80,6 +88,8 @@ describe('notification.controller (unit)', () => {
     expect((res.json as jest.Mock).mock.calls[0][0].data.ids).toEqual([1, 2]);
   });
 
+  // test_case_id: TC_QLTB_005
+  // test_objective: Kiem tra danh dau da doc cho mot notification ID
   it('should set read notification for single id in setReadUserNotification', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.query = { ids: '9' } as any;
@@ -97,6 +107,8 @@ describe('notification.controller (unit)', () => {
     );
   });
 
+  // test_case_id: TC_QLTB_006
+  // test_objective: Kiem tra danh dau da doc tat ca thong bao
   it('should update all notifications in setReadAllUserNotifications', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     (notificationService.updateNotificationByConditions as jest.Mock).mockResolvedValue({});
@@ -110,6 +122,8 @@ describe('notification.controller (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_QLTB_007
+  // test_objective: Kiem tra lay thong bao khi whereConditions rong
   it('should return notifications when whereConditions empty in getUserNotifications', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.body = {
@@ -130,6 +144,8 @@ describe('notification.controller (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_QLTB_008
+  // test_objective: Kiem tra anh xa isRead false chinh xac
   it('should map isRead false correctly in getUserNotifications', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.body = {
@@ -147,6 +163,8 @@ describe('notification.controller (unit)', () => {
     expect(whereArg.isRead).toEqual({ operator: 'eq', value: false });
   });
 
+  // test_case_id: TC_QLTB_009
+  // test_objective: Kiem tra xu ly truong hop bien voi ID bang 0
   it('should accept zero id in setReadUserNotification boundary case', async () => {
     req.currentUser = { users: { id: 7 } } as any;
     req.query = { ids: '0' } as any;
@@ -164,6 +182,8 @@ describe('notification.controller (unit)', () => {
     );
   });
 
+  // test_case_id: TC_QLTB_010
+  // test_objective: Kiem tra xu ly khi currentUser null trong setReadAllUserNotifications
   it('should call next when currentUser is null in setReadAllUserNotifications', async () => {
     req.currentUser = null as any;
 
@@ -172,6 +192,8 @@ describe('notification.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_QLTB_011
+  // test_objective: Kiem tra xu ly khi currentUser null trong getUserNotifications
   it('should call next when currentUser is null in getUserNotifications', async () => {
     req.currentUser = null as any;
     req.body = { whereConditions: {}, orderConditions: {} } as any;

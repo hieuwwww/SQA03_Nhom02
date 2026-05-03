@@ -1,0 +1,42 @@
+Test Case ID,Class/File,Test Objective,Input,Expected Output,Notes
+TC_001,src/controllers/conversation.controller.ts,createAnMessage - missing chatId,req.body={}; currentUser.users.id=1,Call next(error) with BAD_REQUEST,Mock currentUser; no DB
+TC_024,src/controllers/conversation.controller.ts,createAnMessage - currentUser null,req.currentUser=null; req.body={chatId:10},Call next(error) with TypeError or auth error,Tester case: security / middleware failure
+TC_025,src/controllers/conversation.controller.ts,createAnMessage - chatId stringified number,req.body={chatId:'10', content:'hello'}; currentUser.users.id=2,Vẫn tạo tin nhắn bình thường,Tester case: coercion of string number
+TC_026,src/controllers/conversation.controller.ts,createAnMessage - chatId zero,req.body={chatId:0}; currentUser.users.id=2,Call next(error) với BAD_REQUEST,Tester case: falsy boundary
+TC_002,src/controllers/conversation.controller.ts,createAnMessage - happy path (text),req.body={chatId:10, content:'hello'}; currentUser.users.id=2,Insert message called; emit new-message,Mock selectChatById + insertMessage + selectMessageByConditions
+TC_005,src/controllers/conversation.controller.ts,createAnMessage - chat not found,req.body={chatId:999}; currentUser.users.id=2,Call next(error) with BAD_REQUEST,Mock selectChatById -> []
+TC_006,src/controllers/conversation.controller.ts,createAnMessage - uploadImage throws,req.body={chatId:10}; req.file present,Call next(error) with upload failure,Mock uploadImage reject
+TC_007,src/controllers/conversation.controller.ts,createAnMessage - sendEmail on first message,req.body={chatId:11, content:'hey'}; currentUser.users.id=2,sendEmail called,Mock first message path
+TC_008,src/controllers/conversation.controller.ts,createAnMessage - image upload and insert asset,req.body={chatId:12}; req.file present,uploadImage + insertAsset + insertMessage called,Mock asset/file upload flow
+TC_003,src/controllers/conversation.controller.ts,recallMessage - message not found,params.messageId=9999; currentUser.users.id=2,Throw NOT_FOUND,Mock selectMessageByConditions -> []
+TC_004,src/controllers/conversation.controller.ts,recallMessage - happy path,params.messageId=50; currentUser.users.id=2,update called; emit recall-message,Mock existing message and update flow
+TC_009,src/controllers/conversation.controller.ts,recallMessage - messageId missing,req.params={},Call next(error) with BAD_REQUEST,Validate required param
+TC_010,src/controllers/conversation.controller.ts,recallMessage - cannot be recalled,params.messageId=60; recall time expired,Call next(error),Mock past recall time
+TC_011,src/controllers/conversation.controller.ts,recallMessage - delete asset and resource when has assetId,params.messageId=70; assetId=500,Asset deleted and resource removed,Mock asset delete flow
+TC_012,src/controllers/conversation.controller.ts,getMessagesByConversationId - conversationId missing,req.params={},Call next(error) with BAD_REQUEST,Validate required param
+TC_027,src/controllers/conversation.controller.ts,getMessagesByConversationId - currentUser null,req.currentUser=null; params.conversationId='10',Call next(error) with TypeError or auth error,Tester case: middleware failure
+TC_028,src/controllers/conversation.controller.ts,getMessagesByConversationId - conversationId stringified number,req.currentUser.users.id=2; params.conversationId='10',Vẫn trả dữ liệu bình thường,Tester case: coercion of string number
+TC_013,src/controllers/conversation.controller.ts,getMessagesByConversationId - user not member,params.conversationId=5; member query returns [],Call next(error) with NOT_FOUND,Mock member check fail
+TC_014,src/controllers/conversation.controller.ts,getMessagesByConversationId - invalid ordering param,query.sentAt='invalid',Still call selectMessagesOfChatId and return OK,Ordering param fallback
+TC_015,src/controllers/conversation.controller.ts,getMessagesByConversationId - large pageSize,pageSize very large,No crash; still return response,Boundary paging
+TC_016,src/controllers/conversation.controller.ts,getMessagesByConversationId - pagination & ordering valid,query.page=2&pageSize=5&sentAt=desc,Return paged results and pagination metadata,Happy path paging
+TC_017,src/controllers/conversation.controller.ts,createIndividualConversation - members invalid,body.members='invalid',Call next(error) with BAD_REQUEST/UNPROCESSABLE_ENTITY,Validate array input
+TC_031,src/controllers/conversation.controller.ts,createIndividualConversation - members empty,body.members=[],Call next(error) with BAD_REQUEST/UNPROCESSABLE_ENTITY,Tester case: missing payload
+TC_018,src/controllers/conversation.controller.ts,createIndividualConversation - members not include current user,body.members=[2,3],Call next(error) with BAD_REQUEST,Validate membership rule
+TC_019,src/controllers/conversation.controller.ts,createIndividualConversation - return existing conversation,body.members=[1,2]; existing chat found,Return existing chat; no insert,Mock existing conversation path
+TC_032,src/controllers/conversation.controller.ts,createIndividualConversation - duplicate members,body.members=[1,1],Handle by rule or reject,Tester case: duplicate input / business rule check
+TC_020,src/controllers/conversation.controller.ts,createIndividualConversation - create new conversation,body.members=[1,3]; no existing chat,Insert chat and members then return CREATED,Mock insert flow
+TC_021,src/controllers/conversation.controller.ts,updateChatMemberLastRead - conversationId invalid,params.conversationId='abc',Call next(error) with BAD_REQUEST,Validate numeric id
+TC_029,src/controllers/conversation.controller.ts,updateChatMemberLastRead - currentUser null,req.currentUser=null; params.conversationId='20',Call next(error) with TypeError or auth error,Tester case: middleware failure
+TC_022,src/controllers/conversation.controller.ts,updateChatMemberLastRead - update lastRead,params.conversationId='20'; currentUser.users.id=2,updateChatMemberByConditions called,Happy path update
+TC_030,src/controllers/conversation.controller.ts,updateChatMemberLastRead - conversationId zero,req.currentUser.users.id=2; params.conversationId='0',Call next(error) with BAD_REQUEST,FAIL nghiệp vụ: controller vẫn cập nhật khi conversationId='0'
+TC_023,src/controllers/conversation.controller.ts,updateChatMemberLastRead - update throws,service reject error,Call next(error) with error,Mock service reject
+TC_024,src/controllers/conversation.controller.ts,createAnMessage - currentUser null,currentUser null; chatId valid,Call next(error) with TypeError or auth error,"Tester case: security / middleware failure"
+TC_025,src/controllers/conversation.controller.ts,createAnMessage - chatId stringified number,chatId='10',Process normally and create message,"Tester case: coercion of string number"
+TC_026,src/controllers/conversation.controller.ts,createAnMessage - chatId zero,chatId=0,Call next(error) with BAD_REQUEST,"Tester case: falsy boundary"
+TC_027,src/controllers/conversation.controller.ts,getMessagesByConversationId - currentUser null,currentUser null,Call next(error) with TypeError or auth error,"Tester case: middleware failure"
+TC_028,src/controllers/conversation.controller.ts,getMessagesByConversationId - conversationId stringified number,conversationId='10',Process normally and return data,"Tester case: coercion of string number"
+TC_029,src/controllers/conversation.controller.ts,updateChatMemberLastRead - currentUser null,currentUser null,Call next(error) with TypeError or auth error,"Tester case: middleware failure"
+TC_030,src/controllers/conversation.controller.ts,updateChatMemberLastRead - conversationId zero,conversationId='0',Call next(error) with BAD_REQUEST,"Tester case: falsy boundary"
+TC_031,src/controllers/conversation.controller.ts,createIndividualConversation - members empty,members=[],Call next(error) with BAD_REQUEST/UNPROCESSABLE_ENTITY,"Tester case: missing payload"
+TC_032,src/controllers/conversation.controller.ts,createIndividualConversation - duplicate members,members=[1,1],Handle by rule or reject,"Tester case: duplicate input / business rule check"

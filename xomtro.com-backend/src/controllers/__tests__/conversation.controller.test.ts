@@ -1,4 +1,4 @@
-/**
+﻿/**
  * Unit tests for conversation.controller.ts (controller-level)
  * - Framework: Jest + ts-jest
  * - Tests mock all service dependencies and socket IO
@@ -43,7 +43,8 @@ describe('conversation.controller (unit)', () => {
     req = { body: {}, params: {}, query: {} };
   });
 
-  // TC: createAnMessage - missing chatId -> should call next with error
+  // test_case_id: TC_NT_001
+  // test_objective: Kiem tra xu ly khi thieu chatId trong createAnMessage
   it('should call next when chatId missing in createAnMessage', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = {} as any;
@@ -53,6 +54,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_002
+  // test_objective: Kiem tra xu ly khi currentUser null trong createAnMessage
   it('should call next when currentUser is null in createAnMessage', async () => {
     req!.currentUser = null as any;
     req!.body = { chatId: 10 } as any;
@@ -62,6 +65,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_003
+  // test_objective: Kiem tra tao message khi chatId la chuoi so trong createAnMessage
   it('should create message when chatId is stringified number in createAnMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.body = { chatId: '10', content: 'hello' } as any;
@@ -77,6 +82,8 @@ describe('conversation.controller (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(201);
   });
 
+  // test_case_id: TC_NT_004
+  // test_objective: Kiem tra xu ly khi chatId bang 0 trong createAnMessage
   it('should call next when chatId is zero in createAnMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.body = { chatId: 0 } as any;
@@ -86,7 +93,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
-  // TC: createAnMessage - happy path (text message)
+  // test_case_id: TC_NT_005
+  // test_objective: Kiem tra tao message va phat su kien new-message thanh cong
   it('should create message and emit new-message on createAnMessage', async () => {
     // Arrange
     const chatId = 10;
@@ -120,7 +128,8 @@ describe('conversation.controller (unit)', () => {
     expect(toResult.emit).toHaveBeenCalledWith('new-message', expect.any(Object));
   });
 
-  // TC: recallMessage - message not found -> next with error
+  // test_case_id: TC_NT_006
+  // test_objective: Kiem tra xu ly khi thu hoi message khong ton tai
   it('should call next when recalling non-existing message', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { messageId: '9999' } as any;
@@ -132,7 +141,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
-  // TC: recallMessage - happy path
+  // test_case_id: TC_NT_007
+  // test_objective: Kiem tra thu hoi message va phat su kien recall-message thanh cong
   it('should recall message and emit recall-message', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { messageId: '50' } as any;
@@ -168,7 +178,8 @@ describe('conversation.controller (unit)', () => {
     }
   });
 
-  // Additional tests (expanded cases)
+  // test_case_id: TC_NT_008
+  // test_objective: Kiem tra xu ly khi chat khong ton tai trong createAnMessage
   it('should call next when chat not found in createAnMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.body = { chatId: 999, content: 'hi' } as any;
@@ -180,6 +191,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_009
+  // test_objective: Kiem tra xu ly khi upload anh that bai trong createAnMessage
   it('should call next when uploadImage throws in createAnMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.body = { chatId: 10 } as any;
@@ -194,6 +207,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_010
+  // test_objective: Kiem tra gui email khi tao message dau tien trong cuoc tro chuyen
   it('should call sendEmail when first message in conversation', async () => {
     const emailHelper = require('@/utils/email.helper');
     req!.currentUser = { users: { id: 2 } } as any;
@@ -213,6 +228,8 @@ describe('conversation.controller (unit)', () => {
     expect(emailHelper.sendEmail).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_011
+  // test_objective: Kiem tra xu ly upload anh va chen asset trong createAnMessage
   it('should handle image upload and insert asset on createAnMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.body = { chatId: 12 } as any;
@@ -233,6 +250,8 @@ describe('conversation.controller (unit)', () => {
     expect(messageService.insertMessage).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_012
+  // test_objective: Kiem tra xu ly khi thieu messageId trong recallMessage
   it('should call next when messageId missing in recallMessage', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = {} as any;
@@ -242,6 +261,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_013
+  // test_objective: Kiem tra xu ly khi vuot qua thoi gian cho phep thu hoi message
   it('should call next when message cannot be recalled (allowRecallTime passed)', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { messageId: '60' } as any;
@@ -254,6 +275,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_014
+  // test_objective: Kiem tra xoa asset va resource khi message co assetId
   it('should delete asset and resource when message has assetId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { messageId: '70' } as any;
@@ -273,6 +296,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).not.toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_015
+  // test_objective: Kiem tra xu ly khi thieu conversationId trong getMessagesByConversationId
   it('should call next when conversationId missing in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = {} as any;
@@ -282,6 +307,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_016
+  // test_objective: Kiem tra xu ly khi currentUser null trong getMessagesByConversationId
   it('should call next when currentUser is null in getMessagesByConversationId', async () => {
     req!.currentUser = null as any;
     req!.params = { conversationId: '10' } as any;
@@ -291,6 +318,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_017
+  // test_objective: Kiem tra lay messages khi conversationId la chuoi so
   it('should return messages when conversationId is stringified number in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '10' } as any;
@@ -306,6 +335,8 @@ describe('conversation.controller (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_NT_018
+  // test_objective: Kiem tra xu ly khi nguoi dung khong phai thanh vien
   it('should call next when user not member in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '5' } as any;
@@ -316,6 +347,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_019
+  // test_objective: Kiem tra xu ly khi tham so sap xep khong hop le
   it('should handle invalid ordering param in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '10' } as any;
@@ -328,6 +361,8 @@ describe('conversation.controller (unit)', () => {
     expect(messageService.selectMessagesOfChatId).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_020
+  // test_objective: Kiem tra xu ly khi pageSize lon trong getMessagesByConversationId
   it('should handle large pageSize in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '10' } as any;
@@ -340,6 +375,8 @@ describe('conversation.controller (unit)', () => {
     expect(messageService.selectMessagesOfChatId).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_021
+  // test_objective: Kiem tra tra ket qua phan trang va pagination thanh cong
   it('should return paged results and pagination in getMessagesByConversationId', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '10' } as any;
@@ -374,6 +411,8 @@ describe('conversation.controller (unit)', () => {
     expect(sent.data.pagination.currentPageSize).toBe(5);
   });
 
+  // test_case_id: TC_NT_022
+  // test_objective: Kiem tra xu ly khi members khong hop le
   it('should call next when members invalid in createIndividualConversation', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: 'invalid' } as any;
@@ -383,6 +422,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_023
+  // test_objective: Kiem tra xu ly khi members khong bao gom nguoi dung hien tai
   it('should call next when members do not include current user', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: [2, 3] } as any;
@@ -392,6 +433,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_024
+  // test_objective: Kiem tra tra cuoc tro chuyen hien tai khi tim thay
   it('should return existing conversation in createIndividualConversation when found', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: [1, 2] } as any;
@@ -402,6 +445,8 @@ describe('conversation.controller (unit)', () => {
     expect(chatService.insertChat).not.toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_025
+  // test_objective: Kiem tra tao cuoc tro chuyen moi khi khong tim thay
   it('should create new conversation in createIndividualConversation when not found', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: [1, 3] } as any;
@@ -414,6 +459,8 @@ describe('conversation.controller (unit)', () => {
     expect(chatService.insertChatMembers).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_026
+  // test_objective: Kiem tra xu ly khi members rong
   it('should call next when members empty in createIndividualConversation', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: [] } as any;
@@ -423,6 +470,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_027
+  // test_objective: Kiem tra tao cuoc tro chuyen khi members lap lai
   it('should create conversation when members are duplicated in createIndividualConversation', async () => {
     req!.currentUser = { users: { id: 1 } } as any;
     req!.body = { members: [1, 1] } as any;
@@ -435,6 +484,8 @@ describe('conversation.controller (unit)', () => {
     expect(chatService.insertChatMembers).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_028
+  // test_objective: Kiem tra xu ly khi conversationId khong hop le
   it('should call next when conversationId invalid in updateChatMemberLastRead', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: 'abc' } as any;
@@ -444,6 +495,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_029
+  // test_objective: Kiem tra xu ly khi currentUser null trong updateChatMemberLastRead
   it('should call next when currentUser is null in updateChatMemberLastRead', async () => {
     req!.currentUser = null as any;
     req!.params = { conversationId: '20' } as any;
@@ -453,6 +506,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_030
+  // test_objective: Kiem tra xu ly khi conversationId bang 0
   it('should call next when conversationId is zero in updateChatMemberLastRead', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '0' } as any;
@@ -462,6 +517,8 @@ describe('conversation.controller (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_031
+  // test_objective: Kiem tra cap nhat lastRead cua thanh vien chat thanh cong
   it('should update chat member lastRead in updateChatMemberLastRead', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '20' } as any;
@@ -471,6 +528,8 @@ describe('conversation.controller (unit)', () => {
     expect(chatService.updateChatMemberByConditions).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_NT_032
+  // test_objective: Kiem tra xu ly khi updateChatMemberByConditions gap loi
   it('should call next when updateChatMemberByConditions throws', async () => {
     req!.currentUser = { users: { id: 2 } } as any;
     req!.params = { conversationId: '21' } as any;

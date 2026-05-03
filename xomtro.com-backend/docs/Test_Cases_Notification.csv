@@ -1,0 +1,12 @@
+Test Case ID,Class/File,Test Objective,Input,Expected Output,Notes
+TC_NF_001,src/controllers/notification.controller.ts,getUserNotifications - lấy danh sách thông báo có phân trang,req.currentUser.users.id=7; body={whereConditions:{type:'post',isRead:false,postId:10},orderConditions:{createdAt:'desc'},pagination:{page:2,pageSize:5}},Trả về status 200 và data.results + data.pagination,Happy path notifications
+TC_NF_002,src/controllers/notification.controller.ts,getUserNotifications - thiếu dữ liệu body,req.body = null,Gọi next(error),Body null => crash path
+TC_NF_003,src/controllers/notification.controller.ts,setReadUserNotification - thiếu ids,req.query = {},Gọi next(error) với BAD_REQUEST,ids là bắt buộc
+TC_NF_004,src/controllers/notification.controller.ts,setReadUserNotification - cập nhật nhiều ids (case fail nghiệp vụ),req.query = { ids: ['1','2','x'] },Chỉ nhận ids hợp lệ [1,2] và bỏ giá trị không hợp lệ,FAIL hiện tại: controller trả [1,2,NaN] do filter NaN chưa đúng
+TC_NF_005,src/controllers/notification.controller.ts,setReadUserNotification - cập nhật 1 id,req.query = { ids: '9' },updateNotificationByConditions được gọi với [9],Single id coercion
+TC_NF_006,src/controllers/notification.controller.ts,setReadAllUserNotifications - đánh dấu tất cả đã đọc,req.currentUser.users.id=7,updateNotificationByConditions được gọi với userId hiện tại,Mark all as read
+TC_NF_007,src/controllers/notification.controller.ts,getUserNotifications - whereConditions rỗng,req.currentUser.users.id=7; body={whereConditions:{},orderConditions:{},pagination:{page:1,pageSize:10}},Vẫn trả thông báo của user hiện tại,whereConditions empty path
+TC_NF_008,src/controllers/notification.controller.ts,getUserNotifications - map isRead=false,req.currentUser.users.id=7; body.whereConditions.isRead=false,Map where.isRead đúng giá trị false,Boolean mapping path
+TC_NF_009,src/controllers/notification.controller.ts,setReadUserNotification - ids = 0,req.query={ids:'0'},Boundary rõ ràng theo rule nghiệp vụ (hiện tại update [0]),Boundary zero id
+TC_NF_010,src/controllers/notification.controller.ts,setReadAllUserNotifications - currentUser null,req.currentUser=null,Gọi next(error) với TypeError/auth error,Middleware failure path
+TC_NF_011,src/controllers/notification.controller.ts,getUserNotifications - currentUser null,req.currentUser=null,Gọi next(error) với TypeError/auth error,Middleware failure path

@@ -1,0 +1,11 @@
+Test Case ID,Class/File,Test Objective,Input,Expected Output,Notes
+TC_PS_001,src/controllers/post.controller.ts,searchPosts - thiếu whereConditions/orderConditions,params.type='rental'; body={},Gọi next(error) với UNPROCESSABLE_ENTITY,Validate đầu vào bắt buộc
+TC_PS_002,src/controllers/post.controller.ts,searchPosts - type không hợp lệ,params.type='invalid'; body={whereConditions:{}, orderConditions:{}},Gọi next(error) với BAD_REQUEST,Validate type route param
+TC_PS_003,src/controllers/post.controller.ts,searchPosts - tìm rental thành công,params.type='rental'; body có pagination,Trả về status 200 và data.results + data.pagination,Happy path rental
+TC_PS_004,src/controllers/post.controller.ts,searchPosts - nearest thiếu tọa độ,whereConditions.nearest thiếu lat/lng,Gọi next(error) với UNPROCESSABLE_ENTITY,Thiếu latitude/longitude
+TC_PS_005,src/controllers/post.controller.ts,searchPosts - chuẩn hóa totalArea range,totalAreaStart > totalAreaEnd,Hệ thống tự hoán đổi khoảng diện tích đúng thứ tự tăng dần,Normalize range
+TC_PS_006,src/controllers/post.controller.ts,searchPassPosts - thiếu whereConditions/orderConditions,body={},Gọi next(error) với UNPROCESSABLE_ENTITY,Validate đầu vào bắt buộc
+TC_PS_007,src/controllers/post.controller.ts,searchPassPosts - passItemStatus không hợp lệ,whereConditions.passItemStatus='broken',Gọi next(error) với BAD_REQUEST,Validate enum passItemStatusType
+TC_PS_008,src/controllers/post.controller.ts,searchPassPosts - tìm kiếm thành công,body có pagination,Trả về status 200 và data.results + data.pagination,Happy path pass
+TC_PS_009,src/controllers/post.controller.ts,searchPassPosts - status không hợp lệ,whereConditions.status='closed',Gọi next(error) với BAD_REQUEST,Validate enum postStatus
+TC_PS_010,src/controllers/post.controller.ts,searchPassPosts - nearest thiếu tọa độ,whereConditions.nearest chỉ có longitude hoặc latitude,Gọi next(error) với UNPROCESSABLE_ENTITY,Thiếu latitude

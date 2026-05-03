@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+﻿import { NextFunction, Request, Response } from 'express';
 
 jest.mock('@/services/post.service');
 jest.mock('@/services/location.service');
@@ -29,6 +29,8 @@ describe('post.controller search handlers (unit)', () => {
     next = jest.fn();
   });
 
+  // test_case_id: TC_TKBV_001
+  // test_objective: Kiem tra xu ly khi thieu whereConditions/orderConditions trong searchPosts
   it('should call next when whereConditions/orderConditions missing in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {} as any;
@@ -38,6 +40,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_002
+  // test_objective: Kiem tra xu ly khi type khong hop le trong searchPosts
   it('should call next when type is invalid in searchPosts', async () => {
     req.params = { type: 'invalid' } as any;
     req.body = { whereConditions: {}, orderConditions: {} } as any;
@@ -47,6 +51,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_003
+  // test_objective: Kiem tra tim kiem bai viet cho thue thanh cong trong searchPosts
   it('should search rental posts successfully in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {
@@ -69,6 +75,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(payload.data).toHaveProperty('pagination');
   });
 
+  // test_case_id: TC_TKBV_004
+  // test_objective: Kiem tra xu ly khi nearest thieu latitude/longitude trong searchPosts
   it('should call next when nearest missing latitude/longitude in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {
@@ -81,6 +89,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_005
+  // test_objective: Kiem tra chuan hoa khoang totalArea khi totalAreaStart > totalAreaEnd
   it('should normalize totalArea range when totalAreaStart > totalAreaEnd in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {
@@ -99,6 +109,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(whereArg.totalArea.value).toEqual([20, 40]);
   });
 
+  // test_case_id: TC_TKBV_006
+  // test_objective: Kiem tra xu ly khi dateStart khong hop le trong searchPosts
   it('should call next when dateStart is invalid in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {
@@ -111,6 +123,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_007
+  // test_objective: Kiem tra tim kiem bai viet tim nguoi thanh cong trong searchPosts
   it('should search wanted posts successfully in searchPosts', async () => {
     req.params = { type: 'wanted' } as any;
     req.body = {
@@ -128,6 +142,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_TKBV_008
+  // test_objective: Kiem tra tim kiem bai viet tham gia thanh cong trong searchPosts
   it('should search join posts successfully in searchPosts', async () => {
     req.params = { type: 'join' } as any;
     req.body = {
@@ -145,6 +161,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_TKBV_009
+  // test_objective: Kiem tra xu ly khi page va pageSize bang 0 trong searchPosts
   it('should handle page and pageSize zero in searchPosts', async () => {
     req.params = { type: 'rental' } as any;
     req.body = {
@@ -163,6 +181,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(res.status).toHaveBeenCalledWith(200);
   });
 
+  // test_case_id: TC_TKBV_010
+  // test_objective: Kiem tra xu ly khi thieu whereConditions/orderConditions trong searchPassPosts
   it('should call next when whereConditions/orderConditions missing in searchPassPosts', async () => {
     req.body = {} as any;
 
@@ -171,6 +191,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_011
+  // test_objective: Kiem tra xu ly khi passItemStatus khong hop le trong searchPassPosts
   it('should call next when passItemStatus invalid in searchPassPosts', async () => {
     req.body = {
       whereConditions: { passItemStatus: 'broken' },
@@ -182,6 +204,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_012
+  // test_objective: Kiem tra tim kiem bai viet pass thanh cong trong searchPassPosts
   it('should search pass posts successfully in searchPassPosts', async () => {
     req.body = {
       whereConditions: {},
@@ -203,6 +227,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(payload.data).toHaveProperty('pagination');
   });
 
+  // test_case_id: TC_TKBV_013
+  // test_objective: Kiem tra xu ly khi status khong hop le trong searchPassPosts
   it('should call next when status invalid in searchPassPosts', async () => {
     req.body = {
       whereConditions: { status: 'closed' },
@@ -214,6 +240,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_014
+  // test_objective: Kiem tra xu ly khi nearest thieu latitude/longitude trong searchPassPosts
   it('should call next when nearest missing latitude/longitude in searchPassPosts', async () => {
     req.body = {
       whereConditions: { nearest: { longitude: 106.7 } },
@@ -225,6 +253,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_015
+  // test_objective: Kiem tra xu ly khi currentUser null trong searchPassPosts
   it('should call next when currentUser is null in searchPassPosts', async () => {
     req.currentUser = null as any;
     req.body = {
@@ -237,6 +267,8 @@ describe('post.controller search handlers (unit)', () => {
     expect(next).toHaveBeenCalled();
   });
 
+  // test_case_id: TC_TKBV_016
+  // test_objective: Kiem tra xu ly khi dateStart khong hop le trong searchPassPosts
   it('should call next when dateStart is invalid in searchPassPosts', async () => {
     req.body = {
       whereConditions: { dateStart: 'invalid-date' },
