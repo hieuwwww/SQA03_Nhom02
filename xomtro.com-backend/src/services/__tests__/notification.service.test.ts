@@ -46,7 +46,7 @@ describe('notification.service', () => {
   });
 
   describe('insertNotification', () => {
-    it('TC_QLTB_012: should insert notification successfully', async () => {
+    it('TC_QLTB_019: should insert notification successfully', async () => {
       const result = [{ id: 1 }];
       mockDb.insert.mockReturnValueOnce(createInsertBuilder(result));
 
@@ -55,7 +55,7 @@ describe('notification.service', () => {
       expect(mockDb.insert).toHaveBeenCalled();
     });
 
-    it('TC_QLTB_013: should handle insert with empty payload', async () => {
+    it('TC_QLTB_020: should handle insert with empty payload', async () => {
       const result = [{ id: 2 }];
       mockDb.insert.mockReturnValueOnce(createInsertBuilder(result));
 
@@ -63,7 +63,7 @@ describe('notification.service', () => {
       expect(res).toEqual(result);
     });
 
-    it('TC_QLTB_014: should handle db error on insert', async () => {
+    it('TC_QLTB_021: should handle db error on insert', async () => {
       mockDb.insert.mockReturnValueOnce({
         values: jest.fn().mockReturnThis(),
         $returningId: jest.fn(() => Promise.reject(new Error('DB Error')))
@@ -74,7 +74,7 @@ describe('notification.service', () => {
   });
 
   describe('selectNotificationByConditions', () => {
-    it('TC_QLTB_015: should select with conditions, order and pagination', async () => {
+    it('TC_QLTB_022: should select with conditions, order and pagination', async () => {
       const result = [{ id: 1 }];
       mockDb.select.mockReturnValueOnce(createSelectBuilder(result));
 
@@ -86,7 +86,7 @@ describe('notification.service', () => {
       expect(mockProcessCondition).toHaveBeenCalled();
     });
 
-    it('TC_QLTB_016: should select without filters', async () => {
+    it('TC_QLTB_023: should select without filters', async () => {
       const result = [{ id: 2 }];
       mockDb.select.mockReturnValueOnce(createSelectBuilder(result));
 
@@ -94,7 +94,7 @@ describe('notification.service', () => {
       expect(res).toEqual(result);
     });
 
-    it('TC_QLTB_017: should select with multiple conditions', async () => {
+    it('TC_QLTB_024: should select with multiple conditions', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       await service.selectNotificationByConditions(
@@ -103,7 +103,7 @@ describe('notification.service', () => {
       expect(mockProcessCondition).toHaveBeenCalledTimes(2);
     });
 
-    it('TC_QLTB_018: should return empty when no results', async () => {
+    it('TC_QLTB_025: should return empty when no results', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const res = await service.selectNotificationByConditions({ type: { operator: 'eq', value: 'unknown' } } as any);
@@ -112,7 +112,7 @@ describe('notification.service', () => {
   });
 
   describe('updateNotificationByConditions', () => {
-    it('TC_QLTB_019: should update notification', async () => {
+    it('TC_QLTB_026: should update notification', async () => {
       const result = [{ id: 3 }];
       mockDb.update.mockReturnValueOnce(createUpdateBuilder(result));
 
@@ -123,7 +123,7 @@ describe('notification.service', () => {
       expect(res).toEqual(result);
     });
 
-    it('TC_QLTB_020: should return empty when no match', async () => {
+    it('TC_QLTB_027: should return empty when no match', async () => {
       mockDb.update.mockReturnValueOnce(createUpdateBuilder([]));
 
       const res = await service.updateNotificationByConditions(
@@ -133,7 +133,7 @@ describe('notification.service', () => {
       expect(res).toEqual([]);
     });
 
-    it('TC_QLTB_021: should update with multiple conditions', async () => {
+    it('TC_QLTB_028: should update with multiple conditions', async () => {
       mockDb.update.mockReturnValueOnce(createUpdateBuilder([{ id: 30 }]));
 
       await service.updateNotificationByConditions(
@@ -145,7 +145,7 @@ describe('notification.service', () => {
   });
 
   describe('deleteNotificationByConditions', () => {
-    it('TC_QLTB_022: should delete notification', async () => {
+    it('TC_QLTB_029: should delete notification', async () => {
       const result = [{ id: 4 }];
       mockDb.delete.mockReturnValueOnce(createDeleteBuilder(result));
 
@@ -153,14 +153,14 @@ describe('notification.service', () => {
       expect(res).toEqual(result);
     });
 
-    it('TC_QLTB_023: should return empty when no match', async () => {
+    it('TC_QLTB_030: should return empty when no match', async () => {
       mockDb.delete.mockReturnValueOnce(createDeleteBuilder([]));
 
       const res = await service.deleteNotificationByConditions({ id: { operator: 'eq', value: 999 } } as any);
       expect(res).toEqual([]);
     });
 
-    it('TC_QLTB_024: should delete with multiple conditions', async () => {
+    it('TC_QLTB_031: should delete with multiple conditions', async () => {
       mockDb.delete.mockReturnValueOnce(createDeleteBuilder([{ id: 40 }]));
 
       await service.deleteNotificationByConditions(

@@ -33,14 +33,14 @@ describe('post.service search functions', () => {
   });
 
   describe('selectRentalPostByConditions', () => {
-    it('TC_TKBV_017: should return empty when no posts', async () => {
+    it('TC_TKBV_010: should return empty when no posts', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const res = await service.selectRentalPostByConditions({ status: { operator: 'eq', value: 'active' } } as any);
       expect(res).toEqual([]);
     });
 
-    it('TC_TKBV_018: should select without location filter', async () => {
+    it('TC_TKBV_011: should select without location filter', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 100 }]))
         .mockReturnValueOnce(
@@ -53,7 +53,7 @@ describe('post.service search functions', () => {
       expect(res).toHaveLength(1);
     });
 
-    it('TC_TKBV_019: should handle db error', async () => {
+    it('TC_TKBV_012: should handle db error', async () => {
       mockDb.select.mockReturnValueOnce({
         from: jest.fn().mockReturnThis(),
         leftJoin: jest.fn().mockReturnThis(),
@@ -68,7 +68,7 @@ describe('post.service search functions', () => {
   });
 
   describe('selectRentalPostByConditions with location', () => {
-    it('TC_TKBV_020: should select with location filter and asset grouping', async () => {
+    it('TC_TKBV_013: should select with location filter and asset grouping', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 1 }, { id: 2 }]))
         .mockReturnValueOnce(
@@ -87,7 +87,7 @@ describe('post.service search functions', () => {
       expect(result).toHaveLength(2);
     });
 
-    it('TC_TKBV_021: should select with multiple conditions', async () => {
+    it('TC_TKBV_014: should select with multiple conditions', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 5 }]))
         .mockReturnValueOnce(createSelectBuilder([{ post: { id: 5 }, asset: { id: 51 }, rentalPost: { id: 501 } }]));
@@ -101,14 +101,14 @@ describe('post.service search functions', () => {
   });
 
   describe('selectWantedPostByConditions', () => {
-    it('TC_TKBV_022: should return empty when no posts', async () => {
+    it('TC_TKBV_015: should return empty when no posts', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const res = await service.selectWantedPostByConditions({ status: { operator: 'eq', value: 'active' } } as any);
       expect(res).toEqual([]);
     });
 
-    it('TC_TKBV_023: should select with location filter', async () => {
+    it('TC_TKBV_016: should select with location filter', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 6 }]))
         .mockReturnValueOnce(
@@ -124,7 +124,7 @@ describe('post.service search functions', () => {
   });
 
   describe('selectJoinPostByConditions', () => {
-    it('TC_TKBV_024: should select with location filter', async () => {
+    it('TC_TKBV_017: should select with location filter', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 3 }]))
         .mockReturnValueOnce(
@@ -143,7 +143,7 @@ describe('post.service search functions', () => {
       expect(result[0].assets).toHaveLength(2);
     });
 
-    it('TC_TKBV_025: should return empty when no results', async () => {
+    it('TC_TKBV_018: should return empty when no results', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const result = await service.selectJoinPostByConditions({ status: { operator: 'eq', value: 'inactive' } } as any);
@@ -152,7 +152,7 @@ describe('post.service search functions', () => {
   });
 
   describe('selectPassPostByConditions', () => {
-    it('TC_TKBV_026: should select and deduplicate assets', async () => {
+    it('TC_TKBV_019: should select and deduplicate assets', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 4 }]))
         .mockReturnValueOnce(
@@ -173,14 +173,14 @@ describe('post.service search functions', () => {
       expect(result[0].passItems).toHaveLength(2);
     });
 
-    it('TC_TKBV_027: should return empty when no results', async () => {
+    it('TC_TKBV_020: should return empty when no results', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const result = await service.selectPassPostByConditions({ status: { operator: 'eq', value: 'expired' } } as any);
       expect(result).toEqual([]);
     });
 
-    it('TC_TKBV_028: should select with multiple conditions', async () => {
+    it('TC_TKBV_021: should select with multiple conditions', async () => {
       mockDb.select
         .mockReturnValueOnce(createSelectBuilder([{ id: 8 }]))
         .mockReturnValueOnce(
@@ -196,7 +196,7 @@ describe('post.service search functions', () => {
   });
 
   describe('selectInterestedUserPostByConditions', () => {
-    it('TC_TKBV_029: should select with conditions and order', async () => {
+    it('TC_TKBV_022: should select with conditions and order', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([{ id: 5, userId: 7 }]));
 
       const res = await service.selectInterestedUserPostByConditions(
@@ -209,7 +209,7 @@ describe('post.service search functions', () => {
       expect(mockProcessOrderCondition).toHaveBeenCalled();
     });
 
-    it('TC_TKBV_030: should return empty when no results', async () => {
+    it('TC_TKBV_023: should return empty when no results', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([]));
 
       const result = await service.selectInterestedUserPostByConditions(
@@ -219,7 +219,7 @@ describe('post.service search functions', () => {
       expect(result).toEqual([]);
     });
 
-    it('TC_TKBV_031: should select with multiple conditions', async () => {
+    it('TC_TKBV_024: should select with multiple conditions', async () => {
       mockDb.select.mockReturnValueOnce(createSelectBuilder([{ id: 10, postId: 101, userId: 8 }]));
 
       await service.selectInterestedUserPostByConditions(
